@@ -274,14 +274,7 @@ clear
 wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/websocket/nontls.sh && chmod +x nontls.sh && ./nontls.sh
 clear
 ### Pasang SlowDNS
-function install_slowdnss(){
-    print_install "Memasang modul SlowDNS Server"
-    wget -q -O /tmp/nameserver "${REPO}slowdnss/nameserver" >/dev/null 2>&1
-    chmod +x /tmp/nameserver
-    bash /tmp/nameserver | tee /root/install.log
-    print_success "SlowDNS"
-}
-
+wget -q -O slowdns.sh https://raw.githubusercontent.com/Azigaming404/Autoscript-by-azi/main/autoscript-ssh-slowdns-main/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
 clear
 echo -e "$green[INFO]$NC Download Extra Menu"
 sleep 2
