@@ -274,11 +274,11 @@ clear
 wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/websocket/nontls.sh && chmod +x nontls.sh && ./nontls.sh
 clear
 ### Pasang SlowDNS
-wget https://raw.githubusercontent.com/Azigaming404/Autoscript-by-azi/main/autoscript-ssh-slowdns-main/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
+wget https://raw.githubusercontent.com/AndyyudaVPN/Autoscript-by-azi/main/autoscript-ssh-slowdns-main/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
 clear
 echo -e "$green[INFO]$NC Download Extra Menu"
 sleep 2
-wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/update/update.sh && chmod +x update.sh && ./update.sh
+wget -q -O senmenu.sh https://raw.githubusercontent.com/AndyyudaVPN/xray-ws/main/senmenu.sh && chmod +x senmenu.sh && ./senmenu.sh
 clear
 ln -fs /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 clear
@@ -372,7 +372,7 @@ echo "" | tee -a log-install.txt
 rm /root/cf.sh >/dev/null 2>&1
 rm /root/setup.sh >/dev/null 2>&1
 rm /root/insshws.sh 
-rm /root/update.sh
+rm /root/senmenu.sh
 rm /root/nontls.sh
 rm /root/install-sldns.sh
 secs_to_human "$(($(date +%s) - ${start}))" | tee -a log-install.txt
