@@ -273,7 +273,7 @@ wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/websocket/ins
 clear
 wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/websocket/nontls.sh && chmod +x nontls.sh && ./nontls.sh
 clear
-### Pasang SlowDNS
+# Pasang SlowDNS
 wget https://raw.githubusercontent.com/AndyyudaVPN/Autoscript-by-azi/main/autoscript-ssh-slowdns-main/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
 clear
 echo -e "$green[INFO]$NC Download Extra Menu"
