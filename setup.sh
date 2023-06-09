@@ -265,8 +265,7 @@ wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/ssh/ssh-vpn.s
 echo -e "$green[INFO]$NC Install XRAY!"
 sleep 2
 clear
-#wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/xray/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
-wget -q -O ins-xray.sh https://raw.githubusercontent.com/Agunxzzz/XrayCol/main/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
+wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/xray/ins-xray.sh && chmod +x ins-xray.sh && ./ins-xray.sh
 clear
 wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/backup/set-br.sh && chmod +x set-br.sh && ./set-br.sh
 clear
