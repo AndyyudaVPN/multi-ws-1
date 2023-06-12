@@ -250,13 +250,13 @@ rm -fr /usr/local/bin/xray
 rm -fr /usr/local/bin/stunnel
 rm -fr /usr/local/bin/stunnel5
 rm -fr /etc/nginx
-rm -fr /var/lib/scrz-prem/
+rm -fr /var/lib/ssnvpn-pro/ipvps.conf/
 rm -fr /usr/bin/xray
 rm -fr /etc/xray
 rm -fr /usr/local/etc/xray
 # // Making Directory 
 mkdir -p /etc/nginx
-mkdir -p /var/lib/scrz-prem/
+mkdir -p /var/lib/ssnvpn-pro/ipvps.conf/
 mkdir -p /usr/bin/xray
 mkdir -p /etc/xray
 mkdir -p /usr/local/etc/xray
@@ -296,7 +296,7 @@ RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_r
      
 echo "Host : $SUB_DOMAIN"
 echo $SUB_DOMAIN > /root/domain
-echo "IP=$SUB_DOMAIN" > /var/lib/scrz-prem/ipvps.conf
+echo "IP=$SUB_DOMAIN" > /var/lib/ssnvpn-pro/ipvps.conf
 sleep 1
 yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
 yellow "Domain added.."
@@ -362,20 +362,20 @@ rm -fr /usr/local/bin/xray
 rm -fr /usr/local/bin/stunnel
 rm -fr /usr/local/bin/stunnel5
 rm -fr /etc/nginx
-rm -fr /var/lib/scrz-prem/
+rm -fr /var/lib/ssnvpn-pro/ipvps.conf/
 rm -fr /usr/bin/xray
 rm -fr /etc/xray
 rm -fr /usr/local/etc/xray
 # // Making Directory 
 mkdir -p /etc/nginx
-mkdir -p /var/lib/scrz-prem/
+mkdir -p /var/lib/ssnvpn-pro/ipvps.conf/
 mkdir -p /usr/bin/xray
 mkdir -p /etc/xray
 mkdir -p /usr/local/etc/xray
 
 # // Input Domain TO VPS
 echo "$domain" > /etc/${Auther}/domain.txt
-echo "IP=$domain" > /var/lib/scrz-prem/ipvps.conf
+echo "IP=$domain" > /var/lib/ssnvpn-pro/ipvps.conf
 echo "$domain" > /root/domain
 domain=$(cat /root/domain)
 cp -r /root/domain /etc/xray/domain
