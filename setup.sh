@@ -210,17 +210,199 @@ wget -q https://raw.githubusercontent.com/myridwan/multi-ws/ipuk/dependencies.sh
 rm dependencies.sh
 clear
 
-yellow "Add Domain for vmess/vless/trojan dll"
-echo "-------------------------------------"
-echo "       Vluks Store "
-echo "-------------------------------------"
-read -rp "Input your domain : " -e pp
-echo "$pp" > /root/domain
-echo "$pp" > /root/scdomain
-echo "$pp" > /etc/xray/domain
-echo "$pp" > /etc/xray/scdomain
-echo "IP=$pp" > /var/lib/ssnvpn-pro/ipvps.conf
+# // Update & Upgrade
+apt update -y#
+apt upgrade -y
+apt dist-upgrade -y
 
+# // Clear
+clear
+clear && clear && clear
+clear;clear;clear
+
+# // Starting Setup Domain
+echo -e "${GREEN}Indonesian Language${NC}"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo -e "Anda Ingin Menggunakan Domain Pribadi ?"
+echo -e "Atau Ingin Menggunakan Domain Otomatis ?"
+echo -e "Jika Ingin Menggunakan Domain Pribadi, Ketik ${GREEN}1${NC}"
+echo -e "dan Jika Ingin menggunakan Domain Otomatis, Ketik ${GREEN}2${NC}"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo ""
+echo -e "${GREEN}English Language${NC}"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo -e "You Want to Use a Private Domain ?"
+echo -e "Or Want to Use Auto Domain ?"
+echo -e "If You Want Using Private Domain, Type ${GREEN}1${NC}"
+echo -e "else You Want using Automatic Domain, Type ${GREEN}2${NC}"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo ""
+
+read -p "$( echo -e "${GREEN}Input Your Choose ? ${NC}(${YELLOW}1/2${NC})${NC} " )" choose_domain
+
+# // Validating Automatic / Private
+if [[ $choose_domain == "2" ]]; then # // Using Automatic Domain
+
+# // Folder Sistem Yang Tidak Boleh Di Hapus
+mkdir -p /usr/bin
+# // Remove File & Directory
+rm -fr /usr/local/bin/xray
+rm -fr /usr/local/bin/stunnel
+rm -fr /usr/local/bin/stunnel5
+rm -fr /etc/nginx
+rm -fr /var/lib/scrz-prem/
+rm -fr /usr/bin/xray
+rm -fr /etc/xray
+rm -fr /usr/local/etc/xray
+# // Making Directory 
+mkdir -p /etc/nginx
+mkdir -p /var/lib/scrz-prem/
+mkdir -p /usr/bin/xray
+mkdir -p /etc/xray
+mkdir -p /usr/local/etc/xray
+
+# // String / Request Data
+sub=$(</dev/urandom tr -dc a-z0-9 | head -c4)
+DOMAIN=vpnmurah.me
+SUB_DOMAIN=${sub}.vpnmurah.me
+CF_ID=paoandest@gmail.com
+CF_KEY=1d158d0efc4eef787222cefff0b6d20981462
+set -euo pipefail
+IP=$(curl -sS ifconfig.me);
+echo "Updating DNS for ${SUB_DOMAIN}..."
+ZONE=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones?name=${DOMAIN}&status=active" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" | jq -r .result[0].id)
+
+RECORD=$(curl -sLX GET "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records?name=${SUB_DOMAIN}" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" | jq -r .result[0].id)
+
+if [[ "${#RECORD}" -le 10 ]]; then
+     RECORD=$(curl -sLX POST "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" \
+     --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}' | jq -r .result.id)
+fi
+
+RESULT=$(curl -sLX PUT "https://api.cloudflare.com/client/v4/zones/${ZONE}/dns_records/${RECORD}" \
+     -H "X-Auth-Email: ${CF_ID}" \
+     -H "X-Auth-Key: ${CF_KEY}" \
+     -H "Content-Type: application/json" \
+     --data '{"type":"A","name":"'${SUB_DOMAIN}'","content":"'${IP}'","ttl":120,"proxied":false}')
+     
+echo "Host : $SUB_DOMAIN"
+echo $SUB_DOMAIN > /root/domain
+echo "IP=$SUB_DOMAIN" > /var/lib/scrz-prem/ipvps.conf
+sleep 1
+yellow() { echo -e "\\033[33;1m${*}\\033[0m"; }
+yellow "Domain added.."
+sleep 3
+domain=$(cat /root/domain)
+cp -r /root/domain /etc/xray/domain
+
+# // Making Certificate
+clear
+echo -e "[ ${GREEN}INFO${NC} ] Starting renew cert... " 
+sleep 2
+echo -e "${OKEY} Starting Generating Certificate"
+rm -fr /root/.acme.sh
+mkdir -p /root/.acme.sh
+curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
+chmod +x /root/.acme.sh/acme.sh
+/root/.acme.sh/acme.sh --upgrade
+/root/.acme.sh/acme.sh --upgrade --auto-upgrade
+/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
+~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
+# // Success
+echo -e "${OKEY} Your Domain : $domain"
+sleep 2
+
+# // ELif For Selection 1
+elif [[ $choose_domain == "1" ]]; then
+
+# // Clear
+clear
+clear && clear && clear
+clear;clear;clear
+
+echo -e "${GREEN}Indonesian Language${NC}"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo -e "Silakan Pointing Domain Anda Ke IP VPS"
+echo -e "Untuk Caranya Arahkan NS Domain Ke Cloudflare"
+echo -e "Kemudian Tambahkan A Record Dengan IP VPS"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo ""
+echo -e "${GREEN}Indonesian Language${NC}"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo -e "Please Point Your Domain To IP VPS"
+echo -e "For Point NS Domain To Cloudflare"
+echo -e "Change NameServer On Domain To Cloudflare"
+echo -e "Then Add A Record With IP VPS"
+echo -e "${YELLOW}-----------------------------------------------------${NC}"
+echo ""
+echo ""
+
+# // Reading Your Input
+read -p "Input Your Domain : " domain
+if [[ $domain == "" ]]; then
+    clear
+    echo -e "${EROR} No Input Detected !"
+    exit 1
+fi
+
+# // Folder Sistem Yang Tidak Boleh Di Hapus
+mkdir -p /usr/bin
+# // Remove File & Directory
+rm -fr /usr/local/bin/xray
+rm -fr /usr/local/bin/stunnel
+rm -fr /usr/local/bin/stunnel5
+rm -fr /etc/nginx
+rm -fr /var/lib/scrz-prem/
+rm -fr /usr/bin/xray
+rm -fr /etc/xray
+rm -fr /usr/local/etc/xray
+# // Making Directory 
+mkdir -p /etc/nginx
+mkdir -p /var/lib/scrz-prem/
+mkdir -p /usr/bin/xray
+mkdir -p /etc/xray
+mkdir -p /usr/local/etc/xray
+
+# // Input Domain TO VPS
+echo "$domain" > /etc/${Auther}/domain.txt
+echo "IP=$domain" > /var/lib/scrz-prem/ipvps.conf
+echo "$domain" > /root/domain
+domain=$(cat /root/domain)
+cp -r /root/domain /etc/xray/domain
+
+# // Making Certificate
+clear
+echo -e "[ ${GREEN}INFO${NC} ] Starting renew cert... " 
+sleep 2
+echo -e "${OKEY} Starting Generating Certificate"
+rm -fr /root/.acme.sh
+mkdir -p /root/.acme.sh
+curl https://acme-install.netlify.app/acme.sh -o /root/.acme.sh/acme.sh
+chmod +x /root/.acme.sh/acme.sh
+/root/.acme.sh/acme.sh --upgrade
+/root/.acme.sh/acme.sh --upgrade --auto-upgrade
+/root/.acme.sh/acme.sh --set-default-ca --server letsencrypt
+/root/.acme.sh/acme.sh --issue -d $domain --standalone -k ec-256
+~/.acme.sh/acme.sh --installcert -d $domain --fullchainpath /etc/xray/xray.crt --keypath /etc/xray/xray.key --ecc
+# // Success
+echo -e "${OKEY} Your Domain : $domain"
+sleep 2
+
+# // Else Do
+else
+    echo -e "${EROR} Please Choose 1 & 2 Only !"
+    exit 1
+fi
 #THEME RED
 cat <<EOF>> /etc/ssnvpn/theme/red
 BG : \E[40;1;41m
@@ -255,7 +437,7 @@ EOF
 cat <<EOF>> /etc/ssnvpn/theme/color.conf
 blue
 EOF
-    
+
 #install ssh ovpn
 echo -e "$green[INFO]$NC Install SSH"
 sleep 2
