@@ -210,17 +210,38 @@ wget -q https://raw.githubusercontent.com/myridwan/multi-ws/ipuk/dependencies.sh
 rm dependencies.sh
 clear
 
-yellow "Add Domain for vmess/vless/trojan dll"
-echo "-------------------------------------"
-echo "       Vluks Store "
-echo "-------------------------------------"
-read -rp "Input your domain : " -e pp
-echo "$pp" > /root/domain
-echo "$pp" > /root/scdomain
-echo "$pp" > /etc/xray/domain
-echo "$pp" > /etc/xray/scdomain
-echo "IP=$pp" > /var/lib/ssnvpn-pro/ipvps.conf
-
+echo -e "$green━━━━━━━━━━┏┓━━━━━━━━━━━━━━━━━━━━━━━━┏┓━━━━━━━━━━━$NC"
+echo -e "$green━━━━━━━━━┏┛┗┓━━━━━━━━━━━━━━━━━━━━━━┏┛┗┓━━━━━━━━━━$NC"
+echo -e "$green┏━━┓━┏┓┏┓┗┓┏┛┏━━┓━━━━┏━━┓┏━━┓┏┓┏━┓━┗┓┏┛┏┓┏━┓━┏━━┓$NC"
+echo -e "$green┗━┓┃━┃┃┃┃━┃┃━┃┏┓┃━━━━┃┏┓┃┃┏┓┃┣┫┃┏┓┓━┃┃━┣┫┃┏┓┓┃┏┓┃$NC"
+echo -e "$green┃┗┛┗┓┃┗┛┃━┃┗┓┃┗┛┃━━━━┃┗┛┃┃┗┛┃┃┃┃┃┃┃━┃┗┓┃┃┃┃┃┃┃┗┛┃$NC"
+echo -e "$green┗━━━┛┗━━┛━┗━┛┗━━┛━━━━┃┏━┛┗━━┛┗┛┗┛┗┛━┗━┛┗┛┗┛┗┛┗━┓┃$NC"
+echo -e "$green━━━━━━━━━━━━━━━━━━━━━┃┃━━━━━━━━━━━━━━━━━━━━━━┏━┛┃$NC"
+echo -e "$green━━━━━━━━━━━━━━━━━━━━━┗┛━━━━━━━━━━━━━━━━━━━━━━┗━━┛$NC"
+    echo -e "$BBlue                     SETUP DOMAIN VPS     $NC"
+    echo -e "$BYellow----------------------------------------------------------$NC"
+    echo -e "$BGreen 1. Use Domain Random / Gunakan Domain Random $NC"
+    echo -e "$BGreen 2. Choose Your Own Domain / Gunakan Domain Sendiri $NC"
+    echo -e "$BYellow----------------------------------------------------------$NC"
+    read -rp " input 1 or 2 / pilih 1 atau 2 : " dns
+	if test $dns -eq 1; then
+    clear
+    apt install jq curl -y
+    wget -q -O /root/cf "${CDN}/cf" >/dev/null 2>&1
+    chmod +x /root/cf
+    bash /root/cf | tee /root/install.log
+    print_success "Domain Random Done"
+	elif test $dns -eq 2; then
+    read -rp "Enter Your Domain / masukan domain : " dom
+    read -rp "Input ur ns-domain : " -e nsdomen
+    echo "IP=$dom" > /var/lib/ssnvpn-pro/ipvps.conf
+    echo "$dom" > /root/scdomain
+	echo "$dom" > /etc/xray/scdomain
+	echo "$dom" > /etc/xray/domain
+	echo "$dom" > /etc/v2ray/domain
+	echo "$dom" > /root/domain
+        echo "$nsdomen" > /etc/xray/nsdomain
+        echo "$nsdomen" > /root/nsdomain
 #THEME RED
 cat <<EOF>> /etc/ssnvpn/theme/red
 BG : \E[40;1;41m
@@ -274,7 +295,7 @@ clear
 wget https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/websocket/nontls.sh && chmod +x nontls.sh && ./nontls.sh
 clear
 # Pasang SlowDNS
-wget https://raw.githubusercontent.com/AndyyudaVPN/Autoscript-by-azi/main/autoscript-ssh-slowdns-main/slowdns.sh && chmod +x slowdns.sh && ./slowdns.sh
+wget -q -O slow.sh https://raw.githubusercontent.com/Andyyuda/xray-ssh/main/slow.sh && chmod +x slow.sh && ./slow.sh
 clear
 echo -e "$green[INFO]$NC Download Extra Menu"
 sleep 2
@@ -320,7 +341,7 @@ fi
 curl -sS ifconfig.me > /etc/myipvps
 
 echo " "
-echo "=====================-[ AutoScript Vluks Store ]-===================="
+echo "=====================-[ AutoScript AndyYuda Store ]-===================="
 echo ""
 echo "------------------------------------------------------------"
 echo ""
@@ -365,7 +386,7 @@ echo ""
 echo ""
 echo "------------------------------------------------------------"
 echo ""
-echo "===============-[ Script Vluks Store  ]-==============="
+echo "===============-[ Script AndyYuda Store  ]-==============="
 echo -e ""
 echo ""
 echo "" | tee -a log-install.txt
