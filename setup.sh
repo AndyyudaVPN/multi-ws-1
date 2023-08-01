@@ -117,7 +117,7 @@ if [ "" = "$PKG_OK" ]; then
   echo -e "[ ${tyblue}NOTES${NC} ] After UDUD"
   sleep 1
   echo -e "[ ${tyblue}NOTES${NC} ] Then run this script again"
-  echo -e "[ ${tyblue}NOTES${NC} ] Notes, Script Vluks Store"
+  echo -e "[ ${tyblue}NOTES${NC} ] Notes, Script AndyYuda Store"
   echo -e "[ ${tyblue}NOTES${NC} ] lu ngerti gak kalo ngerti teken enter.."
   read
 else
