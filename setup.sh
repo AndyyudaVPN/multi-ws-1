@@ -4,7 +4,7 @@ biji=`date +"%Y-%m-%d" -d "$dateFromServer"`
 #########################
 
 REPO="https://raw.githubusercontent.com/Vlukss/scriptvps/main/"
-CDN="https://raw.githubusercontent.com/Andyyuda/v4/main/ssh"
+CDN="https://raw.githubusercontent.com/AndyyudaVPN/multi-ws-1/main/ssh"
 
 ###
 BURIQ () {
